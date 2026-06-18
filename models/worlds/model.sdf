@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+  <model name="worlds">
+    <static>true</static>
+    <link name="link">
+
+      <!-- GLTF uses Y-up; Gazebo uses Z-up — rotate 90° around X -->
+      <pose>0 0 0 0 0 0</pose>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://worlds/meshes/worlds.glb</uri>
+            <scale>0.1 0.1 0.1</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <geometry>
+          <box><size>0.001 0.001 0.001</size></box>
+        </geometry>
+      </collision>
+
+    </link>
+  </model>
+</sdf>

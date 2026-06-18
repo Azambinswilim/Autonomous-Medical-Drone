@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+  <model name="helipad">
+    <static>true</static>
+    <link name="link">
+
+      <!-- GLTF uses Y-up; Gazebo uses Z-up — rotate 90° around X -->
+      <pose>0 0 0 0 0 0</pose>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://helipad/meshes/helipad.glb</uri>
+            <scale>0.002 0.002 0.002</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="collision">
+        <geometry>
+          <box><size>0.6 0.6 0.6</size></box>
+        </geometry>
+      </collision>
+
+    </link>
+  </model>
+</sdf>

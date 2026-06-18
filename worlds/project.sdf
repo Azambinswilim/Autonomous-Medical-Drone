@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.9">
+  <world name="project">
+  
+  <physics type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+  </physics>
+  
+  <!-- c عشان الجاذبيه  -->
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type="adiabatic"/>
+
+    <!-- GPS home position.
+         Required by the NavSat/GPS sensor to set up the ENU reference frame.
+         Without this block, PX4 cannot initialize GPS and standalone mode fails. -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>47.397971057728974</latitude_deg>
+      <longitude_deg>8.546163739800146</longitude_deg>
+      <elevation>0</elevation>
+    </spherical_coordinates>
+
+
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>   <!-- ضل   -->
+
+      <diffuse>0.9 0.9 0.9 1</diffuse> 
+      <specular>0.3 0.3 0.3 1</specular> 
+      <attenuation>                                          <!-- اضاه العالم   -->
+        <range>1000</range> <!-- حجم مكان الاضاه  -->
+        <constant>0.9</constant>  <!-- عشان كل ما ابعد تقل الاضاه  -->                   
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+  
+  
+  <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>0.1 0.1</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient><!-- اللون في الظل -->
+            <diffuse>1.0 1.0 1.0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular> <!-- تسليط الضوء  -->
+          </material>
+        </visual>
+      </link>
+    </model>
+  
+  
+  <include>
+      <uri>model://worlds</uri>
+      <name>worlds</name>
+      <pose>0 0 0.01 1.5709 0 0</pose>
+    </include>
+  
+  
+  <include>
+      <uri>model://helipad</uri>
+      <name>helipad</name>
+      <pose>4.74 7.1 0.06 1.55 0.02 -1.52</pose>
+    </include>
+  
+  
+
+  
+  </world>
+</sdf>
