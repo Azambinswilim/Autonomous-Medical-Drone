@@ -1,13 +1,29 @@
 # Autonomous Medical Drone Project
 
-##Medical Drone
+## Medical Drone
 This project is a simulation environment for a medical drone programmed in Python code to deliver medications, blood samples, and essential supplies. It includes a custom Gazebo world, specific drone models, and the necessary control scripts.
 
-##Project Description
+## Project Description
 World Design: A simulation environment featuring buildings and roads that accurately replicate the details of a real urban environment, with a dedicated landing platform for pharmacies and hospitals for medical deliveries.
 
-##Sensors used
+## Sensors used
 Drone Design: An autonomous drone equipped with an IMX214 primary camera, a StereoOV7251 depth camera for 3D vision, LiDAR, and optimized for precise landing and payload transfer.
+
+## Features
+
+- Autonomous medical delivery
+- Precision landing using vision sensors
+- Custom Gazebo simulation environment
+- LiDAR and depth camera support
+- Python-based autonomous control
+- Medical payload transportation
+
+## Requirements
+
+- Ubuntu 22.04
+- Gazebo Harmonic
+- PX4 Autopilot
+- Python 3.10+
 
 ## 1. Installation and Setup Instructions 
 To get this project running on your computer, follow these steps strictly:
