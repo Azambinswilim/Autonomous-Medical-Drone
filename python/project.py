@@ -3,58 +3,53 @@ from mavsdk import System
 from mavsdk.telemetry import LandedState
 import math
 
-#عشان اشيك اذا ارتبط مع الدرون
 async def check_connection(drone: System):
     async for state in drone.core.connection_state():
         if state.is_connected:
             print(f"Drone connected!")
             break
 
-#يعطيني موقع الدرون
 async def check_gps(drone: System):
     async for gps in drone.telemetry.position():
         if gps.latitude_deg !=0.0 and gps.longitude_deg !=0.0: 
             print(f"Drone gps!{gps.longitude_deg}")
             break
 
-#يشيك على نسبه البطاريه قبل ما تقلع
 async def check_battery_before_takeoff(drone: System, min_takeoff_battery = 50): 
     print("Checking battery level before takeoff...")
     async for battery in drone.telemetry.battery():
         battery_percent = int(battery.remaining_percent * 100)
-        if battery_percent < min_takeoff_battery: # اذا البطاريه اقل من 50 ماتقلع
+        if battery_percent < min_takeoff_battery:
             print(f"Cannot takeoff! Battery is too low:{battery_percent} % Required:{min_takeoff_battery}")
             return False
         else:
             print(f"Battery check passed: {battery_percent}%")
             return True
 
-#كل شوي يرسل كم نسبه البطاريه        
 async def check_battery(drone: System, target_distance_meters = 0): 
     print("check_battery")
     async for battery in drone.telemetry.battery():
         battery_percent = int(battery.remaining_percent * 100)
         print(f"Current battery: {battery_percent}%")
-        if target_distance_meters > 0: # هنا بتعرف انه فيه وجه
-            expected_consumption =(target_distance_meters / 10) * 0.5 # يعطيني نسبه استهلاك تقريبي 
-            remaining_after_trip = battery_percent - expected_consumption # يعطيني نسبه المتوقه المتبقي من الرحله
+        if target_distance_meters > 0: 
+            expected_consumption =(target_distance_meters / 10) * 0.5  
+            remaining_after_trip = battery_percent - expected_consumption 
             print(f"Expected: {expected_consumption}%")
-            if remaining_after_trip < 20: # اذا باقي اقل من 20 يعطيني تحذير
+            if remaining_after_trip < 20: 
                 print("Warning: Battery low for trip!")
-                if battery_percent <= 5 : # اذا باقي اقل من 5 يهبط
+                if battery_percent <= 5 : 
                     print("The battery charge 5%, and will begin to landing")
                     await landing(drone)
                     break
     await asyncio.sleep(5)
 
-#يحسب كم نسبه المسافه عشان السليب
 async def wait_until_reached(drone: System, target_lat, target_lon):
     print("Waiting to reach destination...")
     async for position in drone.telemetry.position():
         lat_diff = target_lat - position.latitude_deg 
         lon_diff = target_lon - position.longitude_deg
-        distance = math.sqrt((lat_diff * 111000) ** 2 + (lon_diff * 111000) ** 2) # هناء يبدا يحسب الفرق بنضام فيذاغرس
-        if distance < 0.5: # إذا المسافة أقل من  يعني وصلنا!
+        distance = math.sqrt((lat_diff * 111000) ** 2 + (lon_diff * 111000) ** 2) 
+        if distance < 0.5: !
             print("Destination reached successfully!")
             break
     await asyncio.sleep(1)
@@ -108,17 +103,15 @@ async def azam():
 
     home = await anext(drone.telemetry.home())
     z = home.absolute_altitude_m 
-    y = home.latitude_deg #قدام وراى
-    x = home.longitude_deg #يمين يسار
+    y = home.latitude_deg 
+    x = home.longitude_deg 
 
     alt = z + 5.0
     print(f"Flight altiude is: {alt}")
 
 
-    # فارق المحور Y (الـ Latitude) = -33.46 متر
     target_lat = y + (-33.46 / 111000.0)
     
-    # فارق المحور X (الـ Longitude) = -21.37 متر
     target_lon = x + (-21.37 / 111000.0)
 
 
